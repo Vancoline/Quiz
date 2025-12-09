@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<h2>Bảng điều khiển Admin - Kết quả người dùng</h2>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <th>ID Bài Làm</th>
+            <th>Người dùng</th>
+            <th>Điểm số</th>
+            <th>Thời gian</th>
+            <th>Xem chi tiết</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for data in admin_data %}
+        <tr>
+            <td>{{ data.result_id }}</td>
+            <td><strong>{{ data.username }}</strong></td>
+            <td><span class="badge bg-primary fs-6">{{ data.score }}/10</span></td>
+            <td>{{ data.timestamp }}</td>
+            <td>
+                <button class="btn btn-sm btn-info" type="button" data-bs-toggle="collapse" data-bs-target="#details-{{ data.result_id }}" aria-expanded="false" aria-controls="details-{{ data.result_id }}">
+                    Chi tiết
+                </button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="5">
+                <div class="collapse" id="details-{{ data.result_id }}">
+                    <div class="card card-body">
+                        <h4>Chi tiết câu trả lời:</h4>
+                        <ul class="list-unstyled">
+                        {% for detail in data.details %}
+                            <li class="p-2 mb-2 border-bottom {% if detail.is_correct %}border-success{% else %}border-danger{% endif %}">
+                                <strong>Câu {{ loop.index }}:</strong> {{ detail.q_text }} <br>
+                                <small class="text-muted">- **Ngành:** {{ detail.job_name }}</small> <br>
+                                
+                                <span class="badge bg-secondary">Trả lời: {{ detail.user_ans }}</span>
+                                <span class="badge {% if detail.is_correct %}bg-success{% else %}bg-danger{% endif %}">
+                                    Đáp án Đúng: {{ detail.correct_ans }} 
+                                    ({{ "Đúng" if detail.is_correct else "Sai" }})
+                                </span>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="mb-5"></div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Bắt đầu Trắc Nghiệm Ngành Nghề{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Bạn phù hợp với ngành nghề nào?</h1>
+<p class="lead">Hoàn thành 10 câu hỏi sau để khám phá những phẩm chất và năng lực nghề nghiệp của bạn.</p>
+
+<form method="POST" action="{{ url_for('submit_quiz') }}">
+    <ol class="list-unstyled">
+    {% for question in questions %}
+        <li class="quiz-card shadow-sm bg-white">
+            <h5 class="mb-3">Câu {{ loop.index }}: {{ question.text }}</h5>
+            
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q_{{ question.id }}" id="q_{{ question.id }}_a" value="A" required>
+                <label class="form-check-label" for="q_{{ question.id }}_a">
+                    A. {{ question.option_a }}
+                </label>
+            </div>
+            
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q_{{ question.id }}" id="q_{{ question.id }}_b" value="B" required>
+                <label class="form-check-label" for="q_{{ question.id }}_b">
+                    B. {{ question.option_b }}
+                </label>
+            </div>
+            
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="q_{{ question.id }}" id="q_{{ question.id }}_c" value="C" required>
+                <label class="form-check-label" for="q_{{ question.id }}_c">
+                    C. {{ question.option_c }}
+                </label>
+            </div>
+        </li>
+    {% endfor %}
+    </ol>
+    
+    <button type="submit" class="btn btn-success btn-lg mt-4 mb-5">Nộp Bài và Xem Kết Quả</button>
+</form>
+
+{% endblock %}
